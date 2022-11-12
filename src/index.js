@@ -2,8 +2,9 @@ const express = require("express");
 const dotenv = require("dotenv");
 const path = require("path");
 const bcrypt = require("bcryptjs");
+const adminRouter = require("./router/admin");
+const clientRouter = require("./router/client");
 dotenv.config({ path: "./process.env" });
-const User = require("../model/user");
 
 const port = process.env.PORT || 3000;
 const app = express();
@@ -12,6 +13,8 @@ const publicDir = path.join(__dirname, "../public");
 app.use(express.urlencoded({ extended: "false" }));
 app.use(express.json());
 app.use(express.static(publicDir));
+app.use(adminRouter);
+app.use(clientRouter);
 
 app.get("/index", (req, res) => {
     res.render("index");

@@ -2,12 +2,12 @@ const mongoose = require("mongoose");
 const validator = require("validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const Citizens = require("./citizens");
-const LGA = require("./lga");
-const Wards = require("./wards");
-const States = require("./states");
 
 const userSchema = new mongoose.Schema({
+    admin: {
+        type: Boolean,
+        default: false,
+    },
     name: {
         type: String,
         required: true,
@@ -58,9 +58,6 @@ const userSchema = new mongoose.Schema({
             required: true,
         },
     }, ],
-    avatar: {
-        type: Buffer,
-    },
 }, {
     timestamps: true,
 });
@@ -77,7 +74,6 @@ userSchema.methods.toJSON = function() {
 
     delete userObject.password;
     delete userObject.tokens;
-    delete userObject.avatar;
 
     return userObject;
 };
